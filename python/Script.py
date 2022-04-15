@@ -20,7 +20,7 @@ wallet_address = '0x090f395Bd24E8Ba7e0A2730ADB387d5Be9428Af5'
 wallet_address = Web3.toChecksumAddress(wallet_address)
 private_key = os.getenv('PRIVATE_KEY')
 
-# define contract
+#define contract
 contract_address = '0x715514960eac1ef8b06b2d3779dcfaa29c6e61ba'
 contract_address = Web3.toChecksumAddress(contract_address)
 ABI = json.loads('[{"inputs":[{"internalType":"string","name":"_greeting","type":"string"}],"name":"setGreeting","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"greet","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"greeting","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}]')
@@ -28,11 +28,10 @@ contract = w3.eth.contract(contract_address, abi=ABI)
 
 
 
-
 #change file hash 
-def writeHashToBC(greeting):
+def writeHashToBC(filehash):
     nonce = w3.eth.getTransactionCount(wallet_address)
-    transaction = contract.functions.setGreeting(greeting).buildTransaction({
+    transaction = contract.functions.setGreeting(filehash).buildTransaction({
     'chainId': 4,
     'gas': 1400000,
     'gasPrice': w3.toWei('160', 'gwei'),
@@ -85,11 +84,6 @@ def printhash():
    
 
 
-def getName():
-    callgreeter = contract.functions.greeting().call()
-    return callgreeter
-
-
 def checkFilelenght():
     with open("./file.txt", 'r') as f:
      lines = f.readlines()
@@ -98,8 +92,23 @@ def checkFilelenght():
             return lines.index(line)
      else: return False
           
-  
+
+
+def getFileHash():
+    ethFilehash = contract.functions.greet().call()
+    return ethFilehash
+
+
+def checkFileIntegrity():
+    if getFileHash() == hashFile():
+        print("The file is integer")
+    else:
+        print("The file is not integer")
     
-#hash file and write to blockchain 
-printhash()
+    
+#Hash file and write to blockchain 
+#printhash()
+
+#Check file integrity 
+#checkFileIntegrity()
 
