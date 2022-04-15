@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 from web3 import Web3
+import datetime
 import json 
 
 #define path to load data from .env file 
@@ -42,5 +43,23 @@ def changeName(greeting):
     w3.eth.sendRawTransaction(signed_txn.rawTransaction)
 
 
-print(getName())
+#print(getName())
 #changeName("WHATS UP")
+
+
+#read file return hash 
+def hashFile():
+    f = open("./file.txt", "r")
+    return hash(f.read)
+
+
+#print hash to file 
+def printhash():
+    with open("./file.txt", "a") as f:
+        f.write("\n ")
+        f.write("\n ---------------------------------")
+        f.write("\n Date: " + str(datetime.datetime.now()))
+        f.write("\n Integrity Hash: " + str(hashFile()))
+        f.write("\n ---------------------------------")
+            
+printhash()
