@@ -25,9 +25,7 @@ ABI = json.loads('[{"inputs":[{"internalType":"string","name":"_greeting","type"
 contract = w3.eth.contract(contract_address, abi=ABI)
 
 
-def getName():
-    callgreeter = contract.functions.greeting().call()
-    return callgreeter
+
 
 #change greeting 
 def changeName(greeting):
@@ -49,17 +47,39 @@ def changeName(greeting):
 
 #read file return hash 
 def hashFile():
+    fileLength = checkFilelenght()
     f = open("./file.txt", "r")
+    content = f.readlines()
+    content[0 :]
     return hash(f.read)
 
 
 #print hash to file 
 def printhash():
-    with open("./file.txt", "a") as f:
+    if checkFilelenght() == False:
+            with open("file.txt", "a") as f:
+                f.write("---- FILE ENDS HERE ----")
+    with open('file.txt', "a") as f:      
         f.write("\n ")
         f.write("\n ---------------------------------")
         f.write("\n Date: " + str(datetime.datetime.now()))
         f.write("\n Integrity Hash: " + str(hashFile()))
         f.write("\n ---------------------------------")
-            
-printhash()
+
+
+def getName():
+    callgreeter = contract.functions.greeting().call()
+    return callgreeter
+
+
+def checkFilelenght():
+    with open("./file.txt", 'r') as f:
+     lines = f.readlines()
+     for line in lines:
+         if line.find('---- FILE ENDS HERE ----') != -1:
+            return lines.index(line)
+     else: return False
+          
+  
+    
+
