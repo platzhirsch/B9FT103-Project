@@ -1,4 +1,5 @@
 import os
+from sys import argv
 import binascii
 from dotenv import load_dotenv
 from pathlib import Path
@@ -6,6 +7,8 @@ from web3 import Web3
 import datetime
 import json 
 import hashlib
+import typer
+
 
 #define path to load data from .env file 
 dotenv_path = Path('./.env')
@@ -104,11 +107,27 @@ def checkFileIntegrity():
         print("The file is integer")
     else:
         print("The file is not integer")
-    
-    
+
+
+
+
+app = typer.Typer()
+
+@app.command()
+def checkTxtFileIntegrity():
+    checkFileIntegrity()
+
+
+@app.command()
+def SaveFileHash():
+    printhash()
+
+if __name__ == "__main__":
+    app()
+
 #Hash file and write to blockchain 
 #printhash()
 
 #Check file integrity 
-#checkFileIntegrity()
+
 
