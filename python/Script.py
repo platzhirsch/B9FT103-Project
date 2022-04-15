@@ -1,9 +1,11 @@
 import os
+import binascii
 from dotenv import load_dotenv
 from pathlib import Path
 from web3 import Web3
 import datetime
 import json 
+import hashlib
 
 #define path to load data from .env file 
 dotenv_path = Path('./.env')
@@ -27,8 +29,8 @@ contract = w3.eth.contract(contract_address, abi=ABI)
 
 
 
-#change greeting 
-def changeName(greeting):
+#change file hash 
+def writeHashToBC(greeting):
     nonce = w3.eth.getTransactionCount(wallet_address)
     transaction = contract.functions.setGreeting(greeting).buildTransaction({
     'chainId': 4,
@@ -38,33 +40,49 @@ def changeName(greeting):
     'from': wallet_address
     }) 
     signed_txn = w3.eth.account.signTransaction(transaction, private_key=private_key)
-    w3.eth.sendRawTransaction(signed_txn.rawTransaction)
+    tx_hash = w3.eth.sendRawTransaction(signed_txn.rawTransaction)
 
+    #tx_hash is in ASCII binary 
+    return binascii.hexlify(tx_hash)
 
-#print(getName())
-#changeName("WHATS UP")
 
 
 #read file return hash 
 def hashFile():
+    hasher = hashlib.new("sha256")
     fileLength = checkFilelenght()
-    f = open("./file.txt", "r")
-    content = f.readlines()
-    content[0 :]
-    return hash(f.read)
+    if type(fileLength) == int:
+        f = open("./file.txt", "rb")
+        content = f.readlines()
+        content = str(content[0 : fileLength]).encode('utf-8')
+        hasher.update(content)
+        return hasher.hexdigest()
+    else:
+        print("File is empty")
+     
 
 
 #print hash to file 
 def printhash():
+
+    filehash = str(hashFile())
+
     if checkFilelenght() == False:
             with open("file.txt", "a") as f:
                 f.write("---- FILE ENDS HERE ----")
+    
+    #write hash to blockchain
+    tx_hash = "0x" + str(writeHashToBC(filehash))[2:-1]
+    
+    #write hash to file 
     with open('file.txt', "a") as f:      
         f.write("\n ")
         f.write("\n ---------------------------------")
         f.write("\n Date: " + str(datetime.datetime.now()))
-        f.write("\n Integrity Hash: " + str(hashFile()))
+        f.write("\n Integrity Hash: " + filehash)
+        f.write("\n TX: " + "https://rinkeby.etherscan.io/tx/" + tx_hash)
         f.write("\n ---------------------------------")
+   
 
 
 def getName():
@@ -82,4 +100,6 @@ def checkFilelenght():
           
   
     
+#hash file and write to blockchain 
+printhash()
 
