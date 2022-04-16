@@ -67,11 +67,7 @@ def hashFile():
 #print hash to file 
 def printhash():
 
-    filehash = str(hashFile())
-
-    if checkFilelenght() == False:
-            with open("file.txt", "a") as f:
-                f.write("---- FILE ENDS HERE ----")
+    filehash = str(hashFile())            
     
     #write hash to blockchain
     tx_hash = "0x" + str(writeHashToBC(filehash))[2:-1]
@@ -92,8 +88,14 @@ def checkFilelenght():
      lines = f.readlines()
      for line in lines:
          if line.find('---- FILE ENDS HERE ----') != -1:
+            print (lines.index(line))
             return lines.index(line)
-     else: return False
+     else: 
+        num_lines = sum(1 for line in open('./file.txt'))
+        with open("file.txt", "a") as f:
+                f.write("---- FILE ENDS HERE ----")
+        return num_lines
+        
           
 
 
@@ -108,26 +110,4 @@ def checkFileIntegrity():
     else:
         print("The file is not integer")
 
-
-
-
-app = typer.Typer()
-
-@app.command()
-def checkTxtFileIntegrity():
-    checkFileIntegrity()
-
-
-@app.command()
-def SaveFileHash():
-    printhash()
-
-if __name__ == "__main__":
-    app()
-
-#Hash file and write to blockchain 
-#printhash()
-
-#Check file integrity 
-
-
+checkFileIntegrity()
