@@ -4,6 +4,7 @@ from pathlib import Path
 from web3 import Web3
 import json 
 import binascii
+import sys
 
 #define path to load data from .env file 
 dotenv_path = Path('./.env')
@@ -27,21 +28,28 @@ contract = w3.eth.contract(contract_address, abi=ABI)
 
 #change file hash 
 def writeHashToBC(filehash):
-    nonce = w3.eth.getTransactionCount(wallet_address)
-    transaction = contract.functions.setGreeting(filehash).buildTransaction({
-    'chainId': 4,
-    'gas': 1400000,
-    'gasPrice': w3.toWei('160', 'gwei'),
-    'nonce': nonce,
-    'from': wallet_address
-    }) 
-    signed_txn = w3.eth.account.signTransaction(transaction, private_key=private_key)
-    tx_hash = w3.eth.sendRawTransaction(signed_txn.rawTransaction)
+    try:
+        nonce = w3.eth.getTransactionCount(wallet_address)
+        transaction = contract.functions.setGreeting(filehash).buildTransaction({
+        'chainId': 4,
+        'gas': 1400000,
+        'gasPrice': w3.toWei('160', 'gwei'),
+        'nonce': nonce,
+        'from': wallet_address
+        }) 
+        signed_txn = w3.eth.account.signTransaction(transaction, private_key=private_key)
+        tx_hash = w3.eth.sendRawTransaction(signed_txn.rawTransaction)
+    except Exception as e:
+        sys.exit("An error occurred " + str(e))
 
     #tx_hash is in ASCII binary 
     return binascii.hexlify(tx_hash)
 
 
 def getFileHash():
-    ethFilehash = contract.functions.greet().call()
+    try:
+        ethFilehash = contract.functions.greet().call()
+    except Exception as e:
+        sys.exit("An error occurred " + str(e))
+
     return ethFilehash
