@@ -40,16 +40,19 @@ def writeHashToBC(filehash):
         signed_txn = w3.eth.account.signTransaction(transaction, private_key=private_key)
         tx_hash = w3.eth.sendRawTransaction(signed_txn.rawTransaction)
     except Exception as e:
+        #Exit because error cant be transfered 
         sys.exit("An error occurred " + str(e))
 
     #tx_hash is in ASCII binary 
     return binascii.hexlify(tx_hash)
 
 
+#get file hash
 def getFileHash():
     try:
         ethFilehash = contract.functions.greet().call()
     except Exception as e:
+        #Exit because error cant be transfered 
         sys.exit("An error occurred " + str(e))
 
     return ethFilehash

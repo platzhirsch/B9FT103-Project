@@ -26,7 +26,7 @@ def hashFile(filename):
 
 
 #print hash to file 
-def printhash(filename):
+def verifyFile(filename):
     if exists(filename):
         filehash = str(hashFile(filename))            
         
@@ -38,6 +38,7 @@ def printhash(filename):
             with open(filename, "a") as f:      
                 f.write("\n ")
                 f.write("\n ---------------------------------")
+                f.write("\n Filename: " + filename)
                 f.write("\n Date: " + str(datetime.datetime.now()))
                 f.write("\n Integrity Hash: " + filehash)
                 f.write("\n TX: " + "https://rinkeby.etherscan.io/tx/" + tx_hash)
@@ -47,7 +48,7 @@ def printhash(filename):
     else: 
         print("File not Found")
 
-        
+
 
 def checkFilelenght(filename):
     try:
@@ -70,7 +71,7 @@ def checkFilelenght(filename):
         print("An error occured " + str(err))
 
 
-def checkFileIntegrity(filename):
+def checkFile(filename):
     if exists(filename):
         if getFileHash() == hashFile(filename):
             print("The file is integer")
@@ -79,4 +80,3 @@ def checkFileIntegrity(filename):
     else:
         print("File not found")
 
-printhash("file.txt")
