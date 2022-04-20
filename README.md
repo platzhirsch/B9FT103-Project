@@ -21,7 +21,7 @@ The logic and interaction pattern of the two functions is described in the next 
 
 ## verifyFile
 This function hashes the file and writes the corresponding file hash to the ETH blockchain.
-![verifyFile function](documentation/verifyFile/verifyFile_architecture.drawio.png "verifyFile function")
+![verifyFile function](documentation/verifyFile/verifyFile_architecture.png "verifyFile function")
 
 ## checkFile
 This function hashes the file and compares it to the hash stored in the ETH blockchain.
