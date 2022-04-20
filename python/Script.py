@@ -4,8 +4,7 @@ import datetime
 import hashlib
 from black import err
 import typer
-from blockchainService import writeHashToBC
-from blockchainService import getFileHash
+from blockchainService import writeHashToBC, getFileHash, getLastModifyed
 from os.path import exists
 
 
@@ -40,6 +39,7 @@ def verifyFile(filename):
                 f.write("\n ---------------------------------")
                 f.write("\n Filename: " + filename)
                 f.write("\n Date: " + str(datetime.datetime.now()))
+                f.write("\n Last changes by: " + getLastModifyed())
                 f.write("\n Integrity Hash: " + filehash)
                 f.write("\n TX: " + "https://rinkeby.etherscan.io/tx/" + tx_hash)
                 f.write("\n ---------------------------------")
@@ -74,9 +74,14 @@ def checkFilelenght(filename):
 def checkFile(filename):
     if exists(filename):
         if getFileHash() == hashFile(filename):
-            print("The file is integer")
+            print("#################################")
+            print("Date: " + str(datetime.datetime.now()))
+            print("The file " +  filename + " is integer")
+            print("Last changes by:" + getLastModifyed())
         else:
-            print("The file is not integer")
+            print("#################################")
+            print("Date: " + str(datetime.datetime.now()))
+            print("The file " +  filename + " is not integer")
     else:
         print("File not found")
 
@@ -85,4 +90,5 @@ def checkFile(filename):
 
 #check file integrity 
 checkFile("file.txt")
+
 
