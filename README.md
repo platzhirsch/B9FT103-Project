@@ -14,8 +14,16 @@ RPC_PROVIDER=<https://rinkeby.infura.io/v3/<RPCKey>>
 PRIVATE_KEY=<PrivateKey>
 ```
 
-### Architecture and logic of the application
+### Architecture and logic of application
 ---------------------------
-The application consists of two functions. verifyFile(filename) and checkFile(filename).
+The application consists of two functions: verifyFile(filename) and checkFile(filename).
+The logic and interaction pattern of the two functions is described in the next two pictures. 
 
-![verifyFile function](/documentation/hashFile/HashFile_architecture.drawio.png "verifyFile function")
+## verifyFile
+This function hashes the file and writes the corresponding file hash to the ETH blockchain.
+![verifyFile function](documentation/verifyFile/verifyFile_architecture.drawio.png "verifyFile function")
+
+## checkFile
+This function hashes the file and compares it to the hash stored in the ETH blockchain.
+If the file hash matches the hash stored the file is interger. 
+![checkFile function](documentation/checkFile/checkFile_architecture.png "checkFile function")

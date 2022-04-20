@@ -61,7 +61,7 @@ def checkFilelenght(filename):
             num_lines = len(lines)
             try:
                 with open(filename, "a") as f:
-                    f.write("---- FILE ENDS HERE ----")
+                    f.write("\n ---- FILE ENDS HERE ----")
                 return num_lines
 
             except EnvironmentError as err:
@@ -79,4 +79,10 @@ def checkFile(filename):
             print("The file is not integer")
     else:
         print("File not found")
+
+#print hash to file and blockchain
+#verifyFile("file.txt")
+
+#check file integrity 
+checkFile("file.txt")
 

@@ -131,4 +131,10 @@ dmypy.json
 #.env 
 .env
 
+#textfile
 *.txt 
+
+#VScode 
+.vscode
+
+.DS_Store
