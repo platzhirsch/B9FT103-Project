@@ -7,7 +7,7 @@ import binascii
 import sys
 
 #define path to load data from .env file 
-dotenv_path = Path('./.env')
+dotenv_path = Path('../.env')
 load_dotenv(dotenv_path=dotenv_path)
 
 #define web3 RPC provider
@@ -105,3 +105,6 @@ def deleteAdress(adress):
 
     #tx_hash is in ASCII binary 
     return binascii.hexlify(tx_hash)
+
+
+

@@ -74,14 +74,14 @@ def checkFile(filename):
     if exists(filename):
         if getFileHash() == hashFile(filename):
             print("####################################")
-            print("I Date: " + str(datetime.datetime.now())+ " I")
-            print("I The file " +  filename + " is integer" + "     I")
-            print("I Last changes by: " + getLastModifyed() + "   I")
+            print("Date: " + str(datetime.datetime.now()))
+            print("The file " +  filename + " is integer")
+            print("Last changes by: " + getLastModifyed())
             print("####################################")
         else:
             print("####################################")
-            print("I Date: " + str(datetime.datetime.now()) + " I")
-            print("I The file " +  filename + " is not integer" + " I")
+            print("Date: " + str(datetime.datetime.now()))
+            print("The file " +  filename + " is not integer")
             print("####################################")
     else:
         print("File not found")
@@ -89,16 +89,17 @@ def checkFile(filename):
 def addCollaborators(adress, name):
     #check if adress is valid
     if Web3.isAddress(adress):
-        print("adding {name} as a collaborator")
-        print("TX: " + setAdress(adress=adress, name=name))
+        print("adding " + name + " as a collaborator")
+        print("TX: " + "https://rinkeby.etherscan.io/tx/0x" + str(setAdress(adress, name))[2:-1])
+        
     else:
         print("please enter valid adress")    
 
 def deleteCollaborators(adress):
     #check if adress is valid
     if Web3.isAddress(adress):
-        print("deleting {adress} as a collaborator")
-        print("TX: " + deleteAdress(adress=adress))
+        print("deleting " + adress + " as a collaborator")
+        print("TX: " + "https://rinkeby.etherscan.io/tx/0x" + str(deleteAdress(adress))[2:-1])
     else:
         print("please enter valid adress")    
 

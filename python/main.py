@@ -17,8 +17,8 @@ def addCollaborator(adress: str, name: str):
     addCollaborators(adress, name)
 
 @app.command()
-def deleteCollaborator(adress: str, name: str):
-    deleteCollaborators(adress, name)
+def deleteCollaborator(adress: str):
+    deleteCollaborators(adress)
 
 
 if __name__ == "__main__":
