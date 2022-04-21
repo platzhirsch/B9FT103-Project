@@ -1,11 +1,10 @@
-from distutils.log import error
 from sys import argv
 import datetime
 import hashlib
-from black import err
-import typer
-from blockchainService import writeHashToBC, getFileHash, getLastModifyed
+from blockchainService import writeHashToBC, getFileHash, getLastModifyed, setAdress, deleteAdress
 from os.path import exists
+import sys
+from web3 import Web3
 
 
 #read file return hash 
@@ -46,7 +45,7 @@ def verifyFile(filename):
         except EnvironmentError as err:
             print("An error occured " + str(err))
     else: 
-        print("File not Found")
+        sys.exit("File not Found")
 
 
 
@@ -74,21 +73,35 @@ def checkFilelenght(filename):
 def checkFile(filename):
     if exists(filename):
         if getFileHash() == hashFile(filename):
-            print("#################################")
-            print("Date: " + str(datetime.datetime.now()))
-            print("The file " +  filename + " is integer")
-            print("Last changes by:" + getLastModifyed())
+            print("####################################")
+            print("I Date: " + str(datetime.datetime.now())+ " I")
+            print("I The file " +  filename + " is integer" + "     I")
+            print("I Last changes by: " + getLastModifyed() + "   I")
+            print("####################################")
         else:
-            print("#################################")
-            print("Date: " + str(datetime.datetime.now()))
-            print("The file " +  filename + " is not integer")
+            print("####################################")
+            print("I Date: " + str(datetime.datetime.now()) + " I")
+            print("I The file " +  filename + " is not integer" + " I")
+            print("####################################")
     else:
         print("File not found")
 
-#print hash to file and blockchain
-#verifyFile("file.txt")
+def addCollaborators(adress, name):
+    #check if adress is valid
+    if Web3.isAddress(adress):
+        print("adding {name} as a collaborator")
+        print("TX: " + setAdress(adress=adress, name=name))
+    else:
+        print("please enter valid adress")    
 
-#check file integrity 
-checkFile("file.txt")
+def deleteCollaborators(adress):
+    #check if adress is valid
+    if Web3.isAddress(adress):
+        print("deleting {adress} as a collaborator")
+        print("TX: " + deleteAdress(adress=adress))
+    else:
+        print("please enter valid adress")    
+
+
 
 
