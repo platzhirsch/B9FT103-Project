@@ -7,12 +7,12 @@ import binascii
 import sys
 
 #define path to load data from .env file 
-dotenv_path = Path('../.env')
+dotenv_path = Path("../.env")
 load_dotenv(dotenv_path=dotenv_path)
 
 #define web3 RPC provider
-rpc_provider = os.getenv('RPC_PROVIDER')
-w3 =  Web3(Web3.HTTPProvider(rpc_provider))
+api_key = os.getenv("INFURA_API_KEY")
+w3 =  Web3(Web3.HTTPProvider("https://rinkeby.infura.io/v3/" + api_key))
 
 #define own adress
 wallet_address = '0x090f395Bd24E8Ba7e0A2730ADB387d5Be9428Af5'
