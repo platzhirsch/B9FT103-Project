@@ -23,7 +23,7 @@ def hashFile(filename):
 
 
 
-#print hash to file 
+#verify and stamp a file 
 def verifyFile(filename):
     if exists(filename):
         filehash = str(hashFile(filename))            
